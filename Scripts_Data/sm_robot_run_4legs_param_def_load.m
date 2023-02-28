@@ -4,7 +4,7 @@ function sm_robot_run_4legs_param_def_load(modelname)
 
 filename = 'sm_robot_run_4legs_param_def.mat';
 
-varset1 = {'L', 'g', 'm', 'k', 'x0', 'y0', 'u0', 'v0'};
+varset1 = {'L', 'g', 'm', 'k', 'x0', 'y0', 'u0', 'v0', 'push'};
 varset2 = {'T_cg', 'T_stance', 'leg_angle0', 'leg_vel0'};
 varset3 = {'TimeValues', 'DataValues', 'th1', 'th2', 'm2', 'l2', 'm1', 'l1', 'T_cg'};
 varset4 = {'T_cg', 'bw', 'J', 'th_dot0', 'N', 't_th', 'u_th', 't_w', 'u_w'};
