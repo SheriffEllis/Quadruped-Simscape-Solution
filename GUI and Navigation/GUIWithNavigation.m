@@ -124,7 +124,7 @@ target=[transpose(linspace(1,30,300)),pthObj.States(:,1),pthObj.States(:,2)];
 save_system('NavigationGUI');
 sim('NavigationGUI',30);
 smwritevideo('NavigationGUI','movingBall','tile',4);
-pause(20);
+pause(40);
 VideoPlayer
 
 
