@@ -19,6 +19,7 @@ body.upper_length = 0.35; %was 0.16
 body.lower_length = 0.25; %was 0.25
 body.foot_radius = 0.035; %was 0.035
 body.shoulder_distance = 0.5; %was 0.4
+body.shoulder_radius = l1*0.025;
 body.pin_radius = l1*0.025;
 body.pin_offset = 0.0192;
 body.max_stretch = body.upper_length + body.lower_length;
