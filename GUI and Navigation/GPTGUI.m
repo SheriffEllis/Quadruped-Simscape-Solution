@@ -9,7 +9,7 @@ btnWidth = 30;
 btnHeight = 30;
 
 % Create a new figure for the GUI
-fig = figure('Position',[200 200 numRows*btnHeight+50 numCols*btnWidth+200]);
+fig = figure('Position',[300 75 numRows*btnHeight+50 numCols*btnWidth+200]);
 
 
 
