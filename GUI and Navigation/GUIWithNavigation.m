@@ -111,7 +111,7 @@ hold on
 plot(solnInfo.TreeData(:,1),solnInfo.TreeData(:,2),'.-');
 
 % Interpolate and plot path.
-interpolate(pthObj,300)
+%interpolate(pthObj,300)
 plot(pthObj.States(:,1),pthObj.States(:,2),'r-','LineWidth',2)
 
 % Show start and goal in grid map.
@@ -119,10 +119,11 @@ plot(start(1),start(2),'ro')
 plot(goal(1),goal(2),'mo')
 hold off
 
-target=[transpose(linspace(1,30,300)),pthObj.States(:,1),pthObj.States(:,2)];
+%target=[transpose(linspace(1,30,300)),pthObj.States(:,1),pthObj.States(:,2)];
+target=[pthObj.States(:,1),pthObj.States(:,2)];
 
 save_system('NavigationGUI');
-sim('NavigationGUI',30);
+sim('NavigationGUI',100);
 smwritevideo('NavigationGUI','movingBall','tile',4);
 pause(40);
 VideoPlayer
