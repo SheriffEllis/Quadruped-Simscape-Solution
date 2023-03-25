@@ -7,8 +7,8 @@ ground.damp = 1000;
 ground.height = 0.4;
 
 % parameters inhereted from previous model
-l1 = 0.55;
-l2 = 0.55;
+l1 = 0.4;
+l2 = 0.4;
 
 % robot body size
 body.x_length = 1; %was 0.6
@@ -18,7 +18,7 @@ body.shoulder_size = 0.07; %was 0.07
 body.upper_length = 0.35; %was 0.16
 body.lower_length = 0.25; %was 0.25
 body.foot_radius = 0.035; %was 0.035
-body.shoulder_distance = 0.5; %was 0.4
+body.shoulder_distance = 0.4; %was 0.4
 body.shoulder_radius = l1*0.025;
 body.pin_radius = l1*0.025;
 body.pin_offset = 0.0192;
@@ -26,7 +26,7 @@ body.max_stretch = body.upper_length + body.lower_length;
 body.knee_damping = 0.1;
 
 % parameters for leg control 
-ctrl.pos_kp = 40;
+ctrl.pos_kp = 30;
 ctrl.pos_ki = 0;
 ctrl.pos_kd = 0;
 ctrl.vel_kp = 4.4;
