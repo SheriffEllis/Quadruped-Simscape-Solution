@@ -123,7 +123,7 @@ hold off
 target=[pthObj.States(:,1),pthObj.States(:,2)];
 
 save_system('NavigationGUI');
-sim('NavigationGUI',100);
+sim('NavigationGUI',200);
 smwritevideo('NavigationGUI','movingBall','tile',4);
 pause(40);
 VideoPlayer
