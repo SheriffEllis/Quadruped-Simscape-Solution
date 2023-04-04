@@ -7,8 +7,10 @@ load('userMap.mat')
 [starty,startx]=find(userMap==1);
 [endy,endx]=find(userMap==2);
 [objy,objx]=find(userMap==3);
+[bally,ballx]=find(userMap==4);
 
 objPos=[objx,objy];
+ballPos=[ballx,bally,1];
 boxPos=[];
 load_system("NavigationGUI");
 %load_system('simscape');
@@ -125,7 +127,7 @@ target=[pthObj.States(:,1),pthObj.States(:,2)];
 save_system('NavigationGUI');
 sim('NavigationGUI',200);
 smwritevideo('NavigationGUI','movingBall','tile',4);
-pause(40);
+pause(100);
 VideoPlayer
 
 
