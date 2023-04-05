@@ -148,6 +148,7 @@ hold off
 %target=[transpose(linspace(1,30,300)),pthObj.States(:,1),pthObj.States(:,2)];
 target2=[pthObj.States(:,1),pthObj.States(:,2)];
 
+
 save_system('NavigationGUI');
 sim('NavigationGUI',400);
 smwritevideo('NavigationGUI','movingBall','tile',4);
@@ -162,6 +163,9 @@ for i=1:length(objx)
     delete_block(transferNames(i));
     delete_block(blockNames(i));
 end
+
+%% Display of video
+VideoPlayer
 
 %% function for pathplanner
 function isReached = exampleHelperCheckIfGoal(planner, goalState, newState)
