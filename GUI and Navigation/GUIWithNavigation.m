@@ -7,8 +7,10 @@ load('userMap.mat')
 [starty,startx]=find(userMap==1);
 [endy,endx]=find(userMap==2);
 [objy,objx]=find(userMap==3);
+[bally,ballx]=find(userMap==4);
 
 objPos=[objx,objy];
+ballPos=[ballx,bally,1];
 boxPos=[];
 load_system("NavigationGUI");
 %load_system('simscape');
@@ -51,6 +53,7 @@ courselayout=userMap;
 courselayout(courselayout==1)=0;
 courselayout(courselayout==2)=0;
 courselayout(courselayout==3)=1;
+courselayout(courselayout==4)=0;
 
 courselayout=rot90(courselayout);
 courselayout=rot90(courselayout);
@@ -64,23 +67,23 @@ floorw=20;
 %% creation of pathfinding algorithm
 
 % Set start and goal poses
-start = [startx,starty,-pi];
-goal = [endx,endy,0];
-show(map)
+start = [startx,starty,0];
+goal = [ballx,bally,0];
+%show(map)
 
 % Show start and goal positions of robot.
 
-figure(2)
-show(map)
-hold on
-plot(start(1),start(2),'ro')
-plot(goal(1),goal(2),'mo')
-
-% Show start and goal headings.
-r = 0.5;
-plot([start(1),start(1) + r*cos(start(3))],[start(2),start(2) + r*sin(start(3))],'r-')
-plot([goal(1),goal(1) + r*cos(goal(3))],[goal(2),goal(2) + r*sin(goal(3))],'m-')
-hold off
+%figure(2)
+% show(map)
+% hold on
+% plot(start(1),start(2),'ro')
+% plot(goal(1),goal(2),'mo')
+% 
+% % Show start and goal headings.
+% r = 0.5;
+% plot([start(1),start(1) + r*cos(start(3))],[start(2),start(2) + r*sin(start(3))],'r-')
+% plot([goal(1),goal(1) + r*cos(goal(3))],[goal(2),goal(2) + r*sin(goal(3))],'m-')
+% hold off
 inflate(map,1)
 
 bounds = [map.XWorldLimits; map.YWorldLimits; [-pi pi]];
@@ -99,11 +102,10 @@ planner.MaxIterations = 30000;
 planner.GoalReachedFcn = @exampleHelperCheckIfGoal;
 
 rng default
-
+%% pathfind to ball
 [pthObj, solnInfo] = plan(planner,start,goal);
 
-%% show path to goal
-figure(3)
+figure(1)
 show(map)
 hold on
 
@@ -120,12 +122,36 @@ plot(goal(1),goal(2),'mo')
 hold off
 
 %target=[transpose(linspace(1,30,300)),pthObj.States(:,1),pthObj.States(:,2)];
-target=[pthObj.States(:,1),pthObj.States(:,2)];
+target1=[pthObj.States(:,1),pthObj.States(:,2)];
+
+%% pathfind to end
+start = [ballx,bally,0];
+goal = [endx,endy,0];
+[pthObj, solnInfo] = plan(planner,start,goal);
+
+figure(2)
+show(map)
+hold on
+
+% Plot entire search tree.
+plot(solnInfo.TreeData(:,1),solnInfo.TreeData(:,2),'.-');
+
+% Interpolate and plot path.
+%interpolate(pthObj,300)
+plot(pthObj.States(:,1),pthObj.States(:,2),'r-','LineWidth',2)
+
+% Show start and goal in grid map.
+plot(start(1),start(2),'ro')
+plot(goal(1),goal(2),'mo')
+hold off
+
+%target=[transpose(linspace(1,30,300)),pthObj.States(:,1),pthObj.States(:,2)];
+target2=[pthObj.States(:,1),pthObj.States(:,2)];
 
 save_system('NavigationGUI');
-sim('NavigationGUI',100);
+sim('NavigationGUI',400);
 smwritevideo('NavigationGUI','movingBall','tile',4);
-pause(40);
+pause(100);
 VideoPlayer
 
 

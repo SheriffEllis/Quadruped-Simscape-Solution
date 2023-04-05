@@ -25,7 +25,7 @@ for row = 1:numRows
 end
 
 % Create a panel for the radio buttons
-panel = uipanel('Title','Options','Position',[0.1 0.8 0.2 0.2]);
+panel = uipanel('Title','Options','Position',[0.2 0.8 0.25 0.2]);
 
 rbtnGroup = uibuttongroup('Parent', panel, 'Position', [0 0 1 1]);
 
@@ -41,15 +41,21 @@ set(rbtn1,'Callback',@(src,event) radioButton(src,event));
 
 rbtn2 = uicontrol('Style','radio',...
                   'String','Add End Position',...
-                  'Position',[10 80 100 20],...
+                  'Position',[10 100 100 20],...
                   'Parent',rbtnGroup);
 set(rbtn2,'Callback',@(src,event) radioButton(src,event));
 
 rbtn3 = uicontrol('Style','radio',...
                   'String','Add Obstacle',...
-                  'Position',[10 40 100 20],...
+                  'Position',[10 80 100 20],...
                   'Parent',rbtnGroup);
 set(rbtn3,'Callback',@(src,event) radioButton(src,event));
+
+rbtn4 = uicontrol('Style','radio',...
+                  'String','Add Ball Location',...
+                  'Position',[10 60 100 20],...
+                  'Parent',rbtnGroup);
+set(rbtn4,'Callback',@(src,event) radioButton(src,event));
 
 % Initialize the selected radio button to 1
 selectedRBtn = 1;
@@ -57,6 +63,7 @@ selectedRBtn = 1;
 userMap=zeros(numRows,numCols);
 startPosSet=0;
 endPosSet=0;
+ballPosSet=0;
 
 function radioButton(src,event)
     switch src
@@ -66,6 +73,8 @@ function radioButton(src,event)
             selectedRBtn = 2;
         case rbtn3
             selectedRBtn = 3;
+        case rbtn4
+            selectedRBtn = 4;
     end
 end
 
@@ -80,6 +89,7 @@ function toggleState(src,event)
     if get(src,'Value') == get(src,'Max')
     % Button is pressed
         switch selectedRBtn
+            %add start position
             case 1
                 if startPosSet~=0
                    [startRow,startCol]=find(userMap==1);
@@ -90,8 +100,11 @@ function toggleState(src,event)
                 set(src,'BackgroundColor','g'); % Set background color to green
                 if userMap(row,col)==2
                     endPosSet=0;
+                elseif userMap(row,col)==4
+                    ballPosSet=0;
                 end
                 userMap(row,col)=1;
+            %add end position
             case 2
                 if endPosSet~=0
                    [startRow,startCol]=find(userMap==2);
@@ -101,17 +114,37 @@ function toggleState(src,event)
                 endPosSet=1;
                 if userMap(row,col)==1
                     startPosSet=0;
+                elseif userMap(row,col)==4
+                    ballPosSet=0;
                 end
                 userMap(row,col)=2;
                 set(src,'BackgroundColor','r'); % Set background color to red
+            %add object
             case 3
                 set(src,'BackgroundColor','black'); % Set background color to black
                 if userMap(row,col)==1
                     startPosSet=0;
                 elseif userMap(row,col)==2
                         endPosSet=0;
+                elseif userMap(row,col)==4
+                    ballPosSet=0;
                 end
                 userMap(row,col)=3;
+            %add ball location
+            case 4
+                if ballPosSet~=0
+                   [startRow,startCol]=find(userMap==4);
+                   userMap(startRow,startCol)=0;
+                   set(btn(startRow,startCol),'BackgroundColor','default','Value',0)
+                end
+                ballPosSet=1;
+                set(src,'BackgroundColor','blue'); %Set background color to orange
+                if userMap(row,col)==1
+                    startPosSet=0;
+                elseif userMap(row,col)==2
+                    endPosSet=0;
+                end
+                userMap(row,col)=4;
             otherwise
                 set(src,'BackgroundColor','black'); % Set background color to black
                 if userMap(row,col)==1
