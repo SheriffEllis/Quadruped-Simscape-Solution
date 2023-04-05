@@ -123,6 +123,7 @@ hold off
 
 %target=[transpose(linspace(1,30,300)),pthObj.States(:,1),pthObj.States(:,2)];
 target1=[pthObj.States(:,1),pthObj.States(:,2)];
+tar1Len=length(target1);
 
 %% pathfind to end
 start = [ballx,bally,0];
@@ -147,6 +148,9 @@ hold off
 
 %target=[transpose(linspace(1,30,300)),pthObj.States(:,1),pthObj.States(:,2)];
 target2=[pthObj.States(:,1),pthObj.States(:,2)];
+tar2Len=length(target2);
+target=cat(1,target1,target2)
+
 
 
 save_system('quad_new_leg_raibert_strategy_v2');
