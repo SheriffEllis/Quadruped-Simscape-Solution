@@ -49,6 +49,8 @@ for i=1:length(objx)
     add_line('quad_new_leg_raibert_strategy_v2/Sensors',linePos);
 end
 
+save_system('quad_new_leg_raibert_strategy_v2');
+
 courselayout=userMap;
 courselayout(courselayout==1)=0;
 courselayout(courselayout==2)=0;
@@ -153,7 +155,11 @@ target=cat(1,target1,target2)
 
 
 
-save_system('quad_new_leg_raibert_strategy_v2');
+save('EnvironmentData','ballPos','ballx','bally','endPos','endx','endy',...
+    'floorl','floorw','startPos','startx','starty','target','tar1Len','objx',...
+    'transConnectNames','blockConnectNames','transferNames','blockNames')
+clear 
+load('EnvironmentData');
 sim('quad_new_leg_raibert_strategy_v2',400);
 smwritevideo('quad_new_leg_raibert_strategy_v2','movingBall','tile',4);
 pause(100);
