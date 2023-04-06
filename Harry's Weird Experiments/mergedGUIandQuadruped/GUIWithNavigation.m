@@ -1,4 +1,13 @@
 
+load('EnvironmentData');
+for i=1:length(objx)
+    delete_line('quad_new_leg_raibert_strategy_v2/Sensors',startPos);
+    delete_line('quad_new_leg_raibert_strategy_v2/Sensors',transConnectNames(i),blockConnectNames(i))
+    delete_block(transferNames(i));
+    delete_block(blockNames(i));
+end
+
+
 GPTGUI
 uiwait
 

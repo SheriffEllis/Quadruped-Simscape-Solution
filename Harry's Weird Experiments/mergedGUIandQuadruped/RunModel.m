@@ -1,3 +1,19 @@
+%% cleanup of simscape model
+load_system("quad_new_leg_raibert_strategy_v2");
+load('EnvironmentData.mat')
+try
+    find_system(transferNames(1));
+    for i=1:length(objx)
+            delete_line('quad_new_leg_raibert_strategy_v2/Sensors',startPos);
+            delete_line('quad_new_leg_raibert_strategy_v2/Sensors',transConnectNames(i),blockConnectNames(i))
+            delete_block(transferNames(i));
+            delete_block(blockNames(i));
+    end
+catch
+end
+
+%% Run GUI
+
 GPTGUI
 uiwait
 
@@ -11,7 +27,7 @@ load('userMap.mat')
 objPos=[objx,objy];
 ballPos=[ballx,bally,1];
 boxPos=[];
-load_system("quad_new_leg_raibert_strategy_v2");
+%load_system("quad_new_leg_raibert_strategy_v2");
 %load_system('simscape');
 subsys_handle = get_param('quad_new_leg_raibert_strategy_v2/Sensors', 'Handle');
 %solverConfigPath=find_system('NavigationGUI/Sensors');
@@ -151,6 +167,11 @@ tar2Len=length(target2);
 target=cat(1,target1,target2)
 
 
+save('EnvironmentData','ballPos','ballx','bally','endPos','endx','endy',...
+    'floorl','floorw','startPos','startx','starty','target','tar1Len','objx',...
+    'transConnectNames','blockConnectNames','transferNames','blockNames')
+clear 
+load('EnvironmentData');
 
 save_system('quad_new_leg_raibert_strategy_v2');
 sim('quad_new_leg_raibert_strategy_v2',400);
@@ -159,13 +180,7 @@ pause(100);
 VideoPlayer
 
 
-%% Cleanup of simscape model
-for i=1:length(objx)
-    delete_line('quad_new_leg_raibert_strategy_v2/Sensors',startPos);
-    delete_line('quad_new_leg_raibert_strategy_v2/Sensors',transConnectNames(i),blockConnectNames(i))
-    delete_block(transferNames(i));
-    delete_block(blockNames(i));
-end
+
 
 %% Display of video
 VideoPlayer
