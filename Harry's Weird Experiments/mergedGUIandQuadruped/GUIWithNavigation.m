@@ -12,11 +12,11 @@ load('userMap.mat')
 objPos=[objx,objy];
 ballPos=[ballx,bally,1];
 boxPos=[];
-load_system("NavigationGUI");
+load_system("quad_new_leg_raibert_strategy_v2");
 %load_system('simscape');
-subsys_handle = get_param('NavigationGUI/Sensors', 'Handle');
+subsys_handle = get_param('quad_new_leg_raibert_strategy_v2/Sensors', 'Handle');
 %solverConfigPath=find_system('NavigationGUI/Sensors');
-lineStart= get_param('NavigationGUI/Sensors/Rigid Transform','PortConnectivity');
+lineStart= get_param('quad_new_leg_raibert_strategy_v2/Sensors/Rigid Transform','PortConnectivity');
 startPos=lineStart.Position;
 startPos=[startPos(1)-25,startPos(2)-2];
 blockNames=strings;
@@ -32,8 +32,8 @@ for i=1:length(objx)
     body='obstacle'+string(i);
     transform='['+string(centrex)+' '+string(centrey)+' 1]';
     transformName='transform'+string(i);
-    tranfDest='NavigationGUI/Sensors/'+transformName;
-    destination='NavigationGUI/Sensors/'+body;
+    tranfDest='quad_new_leg_raibert_strategy_v2/Sensors/'+transformName;
+    destination='quad_new_leg_raibert_strategy_v2/Sensors/'+body;
     blockNames(i)=destination;
     transferNames(i)=tranfDest;
     blockConnectNames(i)=body+'/Rconn1';
@@ -42,12 +42,14 @@ for i=1:length(objx)
     add_block('sm_lib/Frames and Transforms/Rigid Transform',tranfDest,'MakeNameUnique','on');
     set_param(destination,'GraphicDiffuseColor','[1 0 0]');
     set_param(tranfDest,'TranslationMethod','Cartesian','TranslationCartesianOffset',transform);
-    add_line('NavigationGUI/Sensors',transformName+'/RConn1',body+'/Rconn1');
+    add_line('quad_new_leg_raibert_strategy_v2/Sensors',transformName+'/RConn1',body+'/Rconn1');
     lineEnd = get_param(tranfDest,'PortConnectivity');
     endPos=lineEnd.Position;
     linePos=[endPos;startPos];
-    add_line('NavigationGUI/Sensors',linePos);
+    add_line('quad_new_leg_raibert_strategy_v2/Sensors',linePos);
 end
+
+save_system('quad_new_leg_raibert_strategy_v2');
 
 courselayout=userMap;
 courselayout(courselayout==1)=0;
@@ -123,6 +125,7 @@ hold off
 
 %target=[transpose(linspace(1,30,300)),pthObj.States(:,1),pthObj.States(:,2)];
 target1=[pthObj.States(:,1),pthObj.States(:,2)];
+tar1Len=length(target1);
 
 %% pathfind to end
 start = [ballx,bally,0];
@@ -147,19 +150,26 @@ hold off
 
 %target=[transpose(linspace(1,30,300)),pthObj.States(:,1),pthObj.States(:,2)];
 target2=[pthObj.States(:,1),pthObj.States(:,2)];
+tar2Len=length(target2);
+target=cat(1,target1,target2)
 
 
-save_system('NavigationGUI');
-sim('NavigationGUI',400);
-smwritevideo('NavigationGUI','movingBall','tile',4);
+
+save('EnvironmentData','ballPos','ballx','bally','endPos','endx','endy',...
+    'floorl','floorw','startPos','startx','starty','target','tar1Len','objx',...
+    'transConnectNames','blockConnectNames','transferNames','blockNames')
+clear 
+load('EnvironmentData');
+sim('quad_new_leg_raibert_strategy_v2',400);
+smwritevideo('quad_new_leg_raibert_strategy_v2','movingBall','tile',4);
 pause(100);
 VideoPlayer
 
 
 %% Cleanup of simscape model
 for i=1:length(objx)
-    delete_line('NavigationGUI/Sensors',startPos);
-    delete_line('NavigationGUI/Sensors',transConnectNames(i),blockConnectNames(i))
+    delete_line('quad_new_leg_raibert_strategy_v2/Sensors',startPos);
+    delete_line('quad_new_leg_raibert_strategy_v2/Sensors',transConnectNames(i),blockConnectNames(i))
     delete_block(transferNames(i));
     delete_block(blockNames(i));
 end
