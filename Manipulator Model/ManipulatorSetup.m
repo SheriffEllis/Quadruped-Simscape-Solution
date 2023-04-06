@@ -1,5 +1,4 @@
 %% Setup for Manipulator
-clear all
 addpath(genpath('C:\Manipulator Model'))
 
 massReducer = 10;
