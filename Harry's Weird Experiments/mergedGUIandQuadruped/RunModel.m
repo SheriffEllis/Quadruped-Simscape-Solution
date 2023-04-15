@@ -1,11 +1,11 @@
 %% cleanup of simscape model
-load_system("quad_new_leg_raibert_strategy_v2");
+load_system("full_Model.slx");
 load('EnvironmentData.mat')
 try
     find_system(transferNames(1));
     for i=1:length(objx)
-            delete_line('quad_new_leg_raibert_strategy_v2/Sensors',startPos);
-            delete_line('quad_new_leg_raibert_strategy_v2/Sensors',transConnectNames(i),blockConnectNames(i))
+            delete_line('full_Model/Sensors',startPos);
+            delete_line('full_Model/Sensors',transConnectNames(i),blockConnectNames(i))
             delete_block(transferNames(i));
             delete_block(blockNames(i));
     end
@@ -29,9 +29,9 @@ ballPos=[ballx,bally,1];
 boxPos=[];
 %load_system("quad_new_leg_raibert_strategy_v2");
 %load_system('simscape');
-subsys_handle = get_param('quad_new_leg_raibert_strategy_v2/Sensors', 'Handle');
+subsys_handle = get_param('full_Model/Sensors', 'Handle');
 %solverConfigPath=find_system('NavigationGUI/Sensors');
-lineStart= get_param('quad_new_leg_raibert_strategy_v2/Sensors/Rigid Transform','PortConnectivity');
+lineStart= get_param('full_Model/Sensors/Rigid Transform','PortConnectivity');
 startPos=lineStart.Position;
 startPos=[startPos(1)-25,startPos(2)-2];
 blockNames=strings;
@@ -47,8 +47,8 @@ for i=1:length(objx)
     body='obstacle'+string(i);
     transform='['+string(centrex)+' '+string(centrey)+' 1]';
     transformName='transform'+string(i);
-    tranfDest='quad_new_leg_raibert_strategy_v2/Sensors/'+transformName;
-    destination='quad_new_leg_raibert_strategy_v2/Sensors/'+body;
+    tranfDest='full_Model/Sensors/'+transformName;
+    destination='full_Model/Sensors/'+body;
     blockNames(i)=destination;
     transferNames(i)=tranfDest;
     blockConnectNames(i)=body+'/Rconn1';
@@ -57,11 +57,11 @@ for i=1:length(objx)
     add_block('sm_lib/Frames and Transforms/Rigid Transform',tranfDest,'MakeNameUnique','on');
     set_param(destination,'GraphicDiffuseColor','[1 0 0]');
     set_param(tranfDest,'TranslationMethod','Cartesian','TranslationCartesianOffset',transform);
-    add_line('quad_new_leg_raibert_strategy_v2/Sensors',transformName+'/RConn1',body+'/Rconn1');
+    add_line('full_Model/Sensors',transformName+'/RConn1',body+'/Rconn1');
     lineEnd = get_param(tranfDest,'PortConnectivity');
     endPos=lineEnd.Position;
     linePos=[endPos;startPos];
-    add_line('quad_new_leg_raibert_strategy_v2/Sensors',linePos);
+    add_line('full_Model/Sensors',linePos);
 end
 
 courselayout=userMap;
@@ -173,9 +173,9 @@ save('EnvironmentData','ballPos','ballx','bally','endPos','endx','endy',...
 clear 
 load('EnvironmentData');
 
-save_system('quad_new_leg_raibert_strategy_v2');
-sim('quad_new_leg_raibert_strategy_v2',400);
-smwritevideo('quad_new_leg_raibert_strategy_v2','movingBall','tile',4);
+save_system('full_Model');
+sim('full_Model',400);
+smwritevideo('full_Model','movingBall','tile',4);
 pause(100);
 VideoPlayer
 
