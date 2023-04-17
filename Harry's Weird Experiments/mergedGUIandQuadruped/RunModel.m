@@ -25,7 +25,7 @@ load('userMap.mat')
 [bally,ballx]=find(userMap==4);
 
 objPos=[objx,objy];
-ballPos=[ballx,bally,1];
+ballPos=[ballx,bally,0.54];
 boxPos=[];
 %load_system("quad_new_leg_raibert_strategy_v2");
 %load_system('simscape');
@@ -83,7 +83,7 @@ floorw=20;
 
 % Set start and goal poses
 start = [startx,starty,0];
-goal = [ballx,bally,0];
+goal = [ballx-0.4,bally,0];
 %show(map)
 
 % Show start and goal positions of robot.
@@ -141,8 +141,8 @@ target1=[pthObj.States(:,1),pthObj.States(:,2)];
 tar1Len=length(target1);
 
 %% pathfind to end
-start = [ballx,bally,0];
-goal = [endx,endy,0];
+start = [ballx-0.4,bally,0];
+goal = [endx-0.3,endy,0];
 [pthObj, solnInfo] = plan(planner,start,goal);
 
 figure(2)
@@ -165,11 +165,12 @@ hold off
 target2=[pthObj.States(:,1),pthObj.States(:,2)];
 tar2Len=length(target2);
 target=cat(1,target1,target2)
+tarLen=length(target);
 
 
 save('EnvironmentData','ballPos','ballx','bally','endPos','endx','endy',...
     'floorl','floorw','startPos','startx','starty','target','tar1Len','objx',...
-    'transConnectNames','blockConnectNames','transferNames','blockNames')
+    'transConnectNames','blockConnectNames','transferNames','blockNames','tarLen')
 clear 
 load('EnvironmentData');
 
