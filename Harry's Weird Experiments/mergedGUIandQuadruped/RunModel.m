@@ -142,7 +142,7 @@ tar1Len=length(target1);
 
 %% pathfind to end
 start = [ballx-0.5,bally,0];
-goal = [endx-0.6,endy,0];
+goal = [endx-0.5,endy,0];
 [pthObj, solnInfo] = plan(planner,start,goal);
 
 figure(2)
