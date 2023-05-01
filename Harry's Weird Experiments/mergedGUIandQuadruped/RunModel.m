@@ -83,7 +83,7 @@ floorw=20;
 
 % Set start and goal poses
 start = [startx,starty,0];
-goal = [ballx-0.5,bally,0];
+goal = [ballx-0.75,bally,0];
 %show(map)
 
 % Show start and goal positions of robot.
@@ -141,8 +141,8 @@ target1=[pthObj.States(:,1),pthObj.States(:,2)];
 tar1Len=length(target1);
 
 %% pathfind to end
-start = [ballx-0.5,bally,0];
-goal = [endx-0.5,endy,0];
+start = [ballx-0.75,bally,0];
+goal = [endx-0.75,endy,0];
 [pthObj, solnInfo] = plan(planner,start,goal);
 
 figure(2)
