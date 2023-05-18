@@ -88,17 +88,17 @@ goal = [ballx-0.6,bally,0];
 
 % Show start and goal positions of robot.
 
-%figure(2)
-% show(map)
-% hold on
-% plot(start(1),start(2),'ro')
-% plot(goal(1),goal(2),'mo')
-% 
-% % Show start and goal headings.
-% r = 0.5;
-% plot([start(1),start(1) + r*cos(start(3))],[start(2),start(2) + r*sin(start(3))],'r-')
-% plot([goal(1),goal(1) + r*cos(goal(3))],[goal(2),goal(2) + r*sin(goal(3))],'m-')
-% hold off
+figure(1)
+show(map)
+hold on
+plot(start(1),start(2),'ro')
+plot(goal(1),goal(2),'mo')
+
+% Show start and goal headings.
+r = 0.5;
+plot([start(1),start(1) + r*cos(start(3))],[start(2),start(2) + r*sin(start(3))],'r-')
+plot([goal(1),goal(1) + r*cos(goal(3))],[goal(2),goal(2) + r*sin(goal(3))],'m-')
+hold off
 inflate(map,1)
 
 bounds = [map.XWorldLimits; map.YWorldLimits; [-pi pi]];
@@ -120,7 +120,7 @@ rng default
 %% pathfind to ball
 [pthObj, solnInfo] = plan(planner,start,goal);
 
-figure(1)
+figure(2)
 show(map)
 hold on
 
@@ -145,7 +145,7 @@ start = [ballx-0.6,bally,0];
 goal = [endx-0.6,endy,0];
 [pthObj, solnInfo] = plan(planner,start,goal);
 
-figure(2)
+figure(3)
 show(map)
 hold on
 
